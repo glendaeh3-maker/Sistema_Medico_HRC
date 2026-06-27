@@ -112,7 +112,7 @@ def atender_siguiente():
 
 
 def aplicar_triaje_voraz():
-    print("\n--- Aplicar Triaje Voraz (Greedy) ---")
+    print("\n--- Aplicar Triaje  ---")
     if not cola_pacientes:
         print("No hay pacientes en cola.")
         return
@@ -154,7 +154,7 @@ def diagnosticar_paciente():
 
 
 def ver_recursos():
-    print("\n--- Estado de Areas (Divide y Venceras) ---")
+    print("\n--- Estado de Areas  ---")
     mostrar_resumen_recursos(lista_recursos)
 
     peor = area_mas_colapsada(lista_recursos)
