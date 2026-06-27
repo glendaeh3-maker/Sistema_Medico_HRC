@@ -200,10 +200,10 @@ def mostrar_menu():
     print("1. Registrar paciente")
     print("2. Ver cola de pacientes")
     print("3. Atender siguiente paciente")
-    print("4. Aplicar triaje voraz (greedy)")
+    print("4. Aplicar triaje")
     print("5. Diagnosticar paciente")
     print("6. Ver estado de areas / recursos")
-    print("7. Generar reporte de optimizacion (DP)")
+    print("7. Generar reporte de optimizacion")
     print("8. Ver doctores")
     print("0. Salir")
 
