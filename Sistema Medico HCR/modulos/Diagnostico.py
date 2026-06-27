@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Traemos las patologías que Génesis ya dejó listas en Datos_Iniciales
-from Datos.Datos_Iniciales import patologias_frecuentes
+from datos.Datos_Iniciales import patologias_frecuentes
 
 class ArbolDiagnostico:
     def __init__(self):
