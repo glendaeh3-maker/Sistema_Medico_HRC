@@ -71,3 +71,9 @@ def obtener_resumen_recursos(lista_recursos):
     Devuelve un resumen del estado de todas las áreas.
     """
     return "\n".join(str(recurso) for recurso in lista_recursos)
+
+def mostrar_resumen_recursos(lista_recursos):
+    """
+    Imprime en consola el resumen del estado de todas las áreas.
+    """
+    print(obtener_resumen_recursos(lista_recursos))

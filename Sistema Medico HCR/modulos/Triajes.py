@@ -6,7 +6,7 @@ def asignar_triaje_voraz(lista_pacientes, camas_disponibles):
     """
     # El primer paso voraz: ordenar a todos por su nivel de gravedad de mayor a menor.
     # Así nos aseguramos de que los más críticos queden primeritos en la fila.
-    pacientes_priorizados = sorted(lista_pacientes, key=lambda p: p.nivel_triaje, reverse=True)
+    pacientes_priorizados = sorted(lista_pacientes, key=lambda p: p.nivel_triaje)
     
     atendidos = []
     en_espera = []

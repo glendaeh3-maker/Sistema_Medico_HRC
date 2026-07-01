@@ -45,34 +45,33 @@ class ArbolDiagnostico:
         else:
             return "Indeterminado"
 
-    def _buscar_diagnostico(self, sintomas_paciente, enfermedades, indice_actual, ruta_actual):
-        # --- Aquí empieza la lógica de Recursividad + Backtracking ---
-        
-        # CASO BASE 1: Si ya metimos una enfermedad en la ruta, corta ahí
-        if len(ruta_actual) > 0:
-            return True
+def evaluar_paciente(self, sintomas_presentados, paciente):
+    enfermedades = list(self.base_conocimiento.keys())
+    mejor_diagnostico = self._buscar_diagnostico(sintomas_presentados, enfermedades, 0, mejor_actual=None)
+    return mejor_diagnostico if mejor_diagnostico else "Indeterminado"
 
-        # CASO BASE 2: Si ya revisó toda la lista y no hubo match, F (falso)
-        if indice_actual >= len(enfermedades):
-            return False
 
-        # Sacamos la enfermedad actual que vamos a evaluar
-        enfermedad_actual = enfermedades[indice_actual]
-        sintomas_de_enfermedad = self.base_conocimiento.get(enfermedad_actual, [])
+def _buscar_diagnostico(self, sintomas_paciente, enfermedades, indice_actual, mejor_actual):
+    """
+    Recursividad + Backtracking real: explora TODAS las enfermedades candidatas
+    en vez de detenerse en la primera, y se queda con la de mas coincidencias.
+    mejor_actual guarda una tupla (nombre_enfermedad, cantidad_coincidencias).
+    """
+    # CASO BASE: ya revisamos toda la lista de enfermedades
+    if indice_actual >= len(enfermedades):
+        return mejor_actual[0] if mejor_actual else None
 
-        # Cuento cuántos síntomas coinciden (le puse mínimo 2 para que sea válido)
-        coincidencias = sum(1 for s in sintomas_paciente if s in sintomas_de_enfermedad)
-        
-        if coincidencias >= 2:
-            # Si hay coincidencias, tomamos la decisión y la metemos a la ruta
-            ruta_actual.append(enfermedad_actual)
+    enfermedad_actual = enfermedades[indice_actual]
+    sintomas_de_enfermedad = self.base_conocimiento.get(enfermedad_actual, [])
+    coincidencias = sum(1 for s in sintomas_paciente if s in sintomas_de_enfermedad)
 
-            # RECURSIVIDAD
-            if self._buscar_diagnostico(sintomas_paciente, enfermedades, indice_actual + 1, ruta_actual):
-                return True
+    # Decision: ¿esta enfermedad es mejor candidata que la que llevamos hasta ahora?
+    if coincidencias >= 2 and (mejor_actual is None or coincidencias > mejor_actual[1]):
+        # Tomamos la decision (avanzamos con esta como mejor candidata)
+        nueva_mejor = (enfermedad_actual, coincidencias)
+        resultado = self._buscar_diagnostico(sintomas_paciente, enfermedades, indice_actual + 1, nueva_mejor)
+        # (el "retroceso" aqui es implicito: si mas adelante no mejora, resultado sigue siendo nueva_mejor)
+        return resultado
 
-            # BACKTRACKING
-            ruta_actual.pop()
-
-        # Si no hubo match, recursividad para saltar a evaluar la siguiente enfermedad
-        return self._buscar_diagnostico(sintomas_paciente, enfermedades, indice_actual + 1, ruta_actual)
+    # No es mejor candidata (o no alcanza el minimo): seguimos explorando sin cambiar mejor_actual
+    return self._buscar_diagnostico(sintomas_paciente, enfermedades, indice_actual + 1, mejor_actual)

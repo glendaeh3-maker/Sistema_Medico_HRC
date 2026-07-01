@@ -13,7 +13,7 @@ from clases.Paciente import Paciente
 from clases.Doctor import Doctor
 from clases.Recurso import Recurso
 
-from modulos.Cola_Pacientes import agregar_paciente, mostrar_cola, siguiente_paciente
+from modulos.Cola_Pacientes import agregar_paciente, mostrar_cola, siguiente_paciente, ordenar_burbuja
 from modulos.Triajes import asignar_triaje_voraz
 from modulos.Diagnostico import ArbolDiagnostico
 from modulos.Reportes import generar_reporte_optimizacion_dp
@@ -88,6 +88,16 @@ def registrar_paciente():
 
 def ver_cola():
     mostrar_cola(cola_pacientes)
+
+def ver_cola_burbuja():
+    print("\n--- Cola ordenada con Bubble Sort (fuerza bruta) ---")
+    if not cola_pacientes:
+        print("No hay pacientes en cola.")
+        return
+
+    cola_ordenada = ordenar_burbuja(cola_pacientes)
+    for i, p in enumerate(cola_ordenada, 1):
+        print(f"{i}. {p}")
 
 
 def atender_siguiente():
@@ -224,13 +234,14 @@ def mostrar_menu():
     print("-" * 50)
     print("1. Registrar paciente")
     print("2. Ver cola de pacientes")
-    print("3. Atender siguiente paciente")
-    print("4. Aplicar triaje")
-    print("5. Diagnosticar paciente")
-    print("6. Ver estado de areas / recursos")
-    print("7. Generar reporte de optimizacion")
-    print("8. Ver doctores")
-    print("9. Finalizar atencion")
+    print("3. Ver cola de pacientes (ordenada)")
+    print("4. Atender siguiente paciente")
+    print("5. Aplicar triaje")
+    print("6. Diagnosticar paciente")
+    print("7. Ver estado de areas / recursos")
+    print("8. Generar reporte de optimizacion")
+    print("9. Ver doctores")
+    print("10. Finalizar atencion")
     print("0. Salir")
 
 
@@ -238,12 +249,14 @@ def main():
     opciones = {
         "1": registrar_paciente,
         "2": ver_cola,
-        "3": atender_siguiente,
-        "4": aplicar_triaje_voraz,
-        "5": diagnosticar_paciente,
-        "6": ver_recursos,
-        "7": generar_reporte,
-        "8": ver_doctores,
+        "3": ver_cola_burbuja,
+        "4": atender_siguiente,
+        "5": aplicar_triaje_voraz,
+        "6": diagnosticar_paciente,
+        "7": ver_recursos,
+        "8": generar_reporte,
+        "9": ver_doctores,
+        "10": finalizar_atencion,
     }
 
     while True:
