@@ -96,19 +96,26 @@ def atender_siguiente():
     if paciente is None:
         return
 
-    # Buscamos un doctor disponible de la misma especialidad si se puede, sino cualquiera libre
+    # Buscamos un doctor que este disponible Y en su turno actual
     doctor_disponible = None
     for doc in lista_doctores:
-        if doc.disponible:
+        if doc.disponible and doc.esta_en_turno():
             doctor_disponible = doc
             break
 
+    # Si no hay nadie en turno, avisamos con mas detalle (util para sustentacion/pruebas)
     if doctor_disponible is None:
-        print("No hay doctores disponibles en este momento.")
+        hay_disponibles_fuera_turno = any(doc.disponible for doc in lista_doctores)
+        if hay_disponibles_fuera_turno:
+            print("Hay doctores libres, pero ninguno esta en su turno actual.")
+        else:
+            print("No hay doctores disponibles en este momento.")
         return
 
     doctor_disponible.asignar_paciente(paciente)
     cola_pacientes.remove(paciente)
+    
+    
 
 
 def aplicar_triaje_voraz():
@@ -186,6 +193,24 @@ def ver_doctores():
     for doc in lista_doctores:
         print(f"  {doc}")
 
+def finalizar_atencion():
+    print("\n--- Finalizar atención (liberar doctor) ---")
+    doctores_ocupados = [doc for doc in lista_doctores if not doc.disponible]
+
+    if not doctores_ocupados:
+        print("No hay doctores atendiendo a nadie en este momento.")
+        return
+
+    print("Doctores actualmente ocupados:")
+    for i, doc in enumerate(doctores_ocupados, 1):
+        print(f"  {i}. {doc}")
+
+    indice = pedir_entero("\nElige el numero del doctor que termino la atencion: ",
+                           minimo=1, maximo=len(doctores_ocupados))
+
+    doctor_elegido = doctores_ocupados[indice - 1]
+    doctor_elegido.liberar()
+
 
 # ============================================================
 # MENU PRINCIPAL
@@ -205,6 +230,7 @@ def mostrar_menu():
     print("6. Ver estado de areas / recursos")
     print("7. Generar reporte de optimizacion")
     print("8. Ver doctores")
+    print("9. Finalizar atencion")
     print("0. Salir")
 
 
