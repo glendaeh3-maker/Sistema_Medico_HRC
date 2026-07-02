@@ -12,11 +12,15 @@ def area_menos_colapsada(lista_recursos):
     return _buscar_extremo(lista_recursos, mayor=False)
 
 
-def _buscar_extremo(lista_recursos, mayor=True):
+def _buscar_extremo(lista_recursos, mayor=True): #Busca el area mas o menos colapsada
     """
     Algoritmo Divide y Vencerás para encontrar el área con
     mayor o menor porcentaje de ocupación.
     """
+
+    if not lista_recursos:  # para evitar que la recursion falle si lista_recursos esta vacia
+        return None
+    
 
     # Caso base
     if len(lista_recursos) == 1:
@@ -46,10 +50,13 @@ def _buscar_extremo(lista_recursos, mayor=True):
         )
 
 
-def total_camas_disponibles(lista_recursos):
+def total_camas_disponibles(lista_recursos): # Suma camas libres dividiendo la lista
     """
     Calcula el total de camas disponibles usando Divide y Vencerás.
     """
+
+    if not lista_recursos: # para evitar que la recursion falle si lista_recursos esta vacia
+        return None
 
     # Caso base
     if len(lista_recursos) == 1:

@@ -13,9 +13,13 @@ def generar_reporte_optimizacion_dp(lista_pacientes, tiempo_maximo_minutos):
     for i in range(1, n + 1):
         paciente_actual = lista_pacientes[i - 1]
         
-        # Se calcula un tiempo aproximado usando el nivel de triaje (ej. nivel 3 = 30 mins)
+        # Tiempo aproximado de atencion
+        # Mientras mas critico el paciente, normalmente requiere atencion mas rapida
         tiempo_requerido = paciente_actual.nivel_triaje * 10 
-        valor_urgencia = paciente_actual.nivel_triaje
+
+        # En el sistema, triaje 1 es el mas urgente y triaje 5 el menos urgente
+        # Por ello aca se invierte el valor para que DP priorice los casos graves
+        valor_urgencia = 6 - paciente_actual.nivel_triaje
 
         for w in range(1, tiempo_maximo_minutos + 1):
             if tiempo_requerido <= w:
